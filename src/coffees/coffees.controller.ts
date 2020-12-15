@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { json } from 'express';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -31,7 +32,16 @@ export class CoffeesController {
     // @HttpCode(HttpStatus.GONE)
     @Post()
     create(@Body() body) {
-        return body;
-        // return 'this action creates a coffee';
+        return 'this action creates a coffee with this content: ' + JSON.stringify(body);
+    }
+
+    @Patch(':id')
+    update(@Param('id') id: string, @Body() body) {
+        return `this action updates #${id} coffee`;
+    }
+
+    @Delete(':id')
+    remove(@Param('id') id: string) {
+        return `this action removes #${id} coffee`;
     }
 }
