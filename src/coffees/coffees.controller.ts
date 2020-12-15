@@ -1,13 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { json } from 'express';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 
 @Controller('coffees')
 export class CoffeesController {
-    @Get()
-    findAll() {
-        return 'this action returns all coffees';
-    }
-
     /**
      * You can use the response in the same way we do in express
      * Using @Res() param decorator
@@ -23,6 +17,20 @@ export class CoffeesController {
     //     response.status(200).send('this action returns all coffees');
     // }
 
+    // localhost:3000/coffees
+    // @Get()
+    // findAll() {
+    //     return 'this action returns all coffees';
+    // }
+
+    // localhost:3000/coffees?limit=10&offset=5
+    @Get()
+    findAll(@Query() paginationQuery) {
+        const { limit, offset } = paginationQuery;
+        return `this action returns all coffees. Limit: ${limit}, Offset: ${offset}`;
+    }
+
+    // localhost:3000/coffees/123
     @Get(':id')
     findOne(@Param('id') id: string) {
         return `this action returns #${id} coffee`;
@@ -30,16 +38,19 @@ export class CoffeesController {
 
     // You can set return codes using @HttpCode Decorator
     // @HttpCode(HttpStatus.GONE)
+    // localhost:3000/coffees
     @Post()
     create(@Body() body) {
         return 'this action creates a coffee with this content: ' + JSON.stringify(body);
     }
 
+    // localhost:3000/coffees/123
     @Patch(':id')
     update(@Param('id') id: string, @Body() body) {
         return `this action updates #${id} coffee`;
     }
 
+    // localhost:3000/coffees/123
     @Delete(':id')
     remove(@Param('id') id: string) {
         return `this action removes #${id} coffee`;
