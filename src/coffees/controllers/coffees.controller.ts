@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CreateCoffeeDto } from '../dto/create-coffee.dto';
 import { UpdateCoffeeDto } from '../dto/update-coffee.dto';
 import { CoffeesService } from '../services/coffees.service';
@@ -25,18 +26,19 @@ export class CoffeesController {
     ) { }
 
     // localhost:3000/coffees
-    @Get()
-    findAll() {
-        return this.coffeesService.findAll();
-        // return 'this action returns all coffees';
-    }
+    // @Get()
+    // findAll() {
+    //     return this.coffeesService.findAll();
+    //     // return 'this action returns all coffees';
+    // }
 
     // localhost:3000/coffees?limit=10&offset=5
-    // @Get()
-    // findAll(@Query() paginationQuery) {
-    //     const { limit, offset } = paginationQuery;
-    //     return `this action returns all coffees. Limit: ${limit}, Offset: ${offset}`;
-    // }
+    @Get()
+    findAll(@Query() paginationQuery: PaginationQueryDto) {
+        return this.coffeesService.findAll(paginationQuery);
+        // const { limit, offset } = paginationQuery;
+        // return `this action returns all coffees. Limit: ${limit}, Offset: ${offset}`;
+    }
 
     // localhost:3000/coffees/123
     @Get(':id')
