@@ -55,17 +55,25 @@ import { Connection } from 'typeorm';
     //         inject: [CoffeeBrandsFactory]
     //     }
     // ]
+    // providers: [
+    //     CoffeesService,
+    //     {
+    //         provide: COFFEE_BRANDS,
+    //         useFactory: async (conn: Connection): Promise<string[]> => {
+    //             // const coffeeBrands = await conn.query('SELECT...');
+    //             const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
+    //             console.log('[!] Async Factory');
+    //             return coffeeBrands;
+    //         },
+    //         inject: [Connection]
+    //     }
+    // ]
     providers: [
         CoffeesService,
         {
             provide: COFFEE_BRANDS,
-            useFactory: async (conn: Connection): Promise<string[]> => {
-                // const coffeeBrands = await conn.query('SELECT...');
-                const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
-                console.log('[!] Async Factory');
-                return coffeeBrands;
-            },
-            inject: [Connection]
+            useFactory: () => ['buddy brew', 'nescafe'],
+            // scope: Scope.TRANSIENT
         }
     ]
 })
