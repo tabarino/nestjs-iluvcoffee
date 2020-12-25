@@ -1,4 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Patch, Post, Query, Request } from '@nestjs/common';
+import { REQUEST } from '@nestjs/core';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CreateCoffeeDto } from '../dto/create-coffee.dto';
 import { UpdateCoffeeDto } from '../dto/update-coffee.dto';
@@ -22,8 +23,11 @@ export class CoffeesController {
     // }
 
     constructor(
-        private readonly coffeesService: CoffeesService
-    ) { }
+        private readonly coffeesService: CoffeesService,
+        @Inject(REQUEST) private readonly request: Request
+    ) {
+        console.log('CoffeesController Created');
+    }
 
     // localhost:3000/coffees
     // @Get()
