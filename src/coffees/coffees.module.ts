@@ -7,7 +7,10 @@ import { Flavour } from './entities/flavour.entity';
 import { CoffeesService } from './services/coffees.service';
 import { COFFEE_BRANDS } from './coffees.constants';
 
-class MockCoffeesService { }
+// class MockCoffeesService { }
+class ConfigService { }
+class DevelopmentConfigService { }
+class ProductionConfigService { }
 
 @Module({
     imports: [
@@ -28,7 +31,11 @@ class MockCoffeesService { }
     // }]
     providers: [
         CoffeesService,
-        { provide: COFFEE_BRANDS, useValue: ['buddy brew', 'nescafe'] }
+        { provide: COFFEE_BRANDS, useValue: ['buddy brew', 'nescafe'] },
+        {
+            provide: ConfigService,
+            useClass: process.env.NODE_ENV === 'development' ? DevelopmentConfigService : ProductionConfigService
+        }
     ]
 })
 export class CoffeesModule { }
