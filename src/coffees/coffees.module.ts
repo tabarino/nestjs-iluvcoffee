@@ -1,4 +1,4 @@
-import { Injectable, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoffeesController } from './controllers/coffees.controller';
 import { Event } from 'src/events/entities/event.entity';
@@ -6,19 +6,20 @@ import { Coffee } from './entities/coffee.entity';
 import { Flavour } from './entities/flavour.entity';
 import { CoffeesService } from './services/coffees.service';
 import { COFFEE_BRANDS } from './coffees.constants';
+import { Connection } from 'typeorm';
 
 // class MockCoffeesService { }
 // class ConfigService { }
 // class DevelopmentConfigService { }
 // class ProductionConfigService { }
 
-@Injectable()
-export class CoffeeBrandsFactory {
-    create() {
-        /* Do Something */
-        return ['buddy brew', 'nescafe'];
-    }
-}
+// @Injectable()
+// export class CoffeeBrandsFactory {
+//     create() {
+//         /* Do Something */
+//         return ['buddy brew', 'nescafe'];
+//     }
+// }
 
 @Module({
     imports: [
@@ -45,13 +46,26 @@ export class CoffeeBrandsFactory {
     //         useClass: process.env.NODE_ENV === 'development' ? DevelopmentConfigService : ProductionConfigService
     //     }
     // ]
+    // providers: [
+    //     CoffeesService,
+    //     CoffeeBrandsFactory,
+    //     {
+    //         provide: COFFEE_BRANDS,
+    //         useFactory: (brandsFactory: CoffeeBrandsFactory) => brandsFactory.create(),
+    //         inject: [CoffeeBrandsFactory]
+    //     }
+    // ]
     providers: [
         CoffeesService,
-        CoffeeBrandsFactory,
         {
             provide: COFFEE_BRANDS,
-            useFactory: (brandsFactory: CoffeeBrandsFactory) => brandsFactory.create(),
-            inject: [CoffeeBrandsFactory]
+            useFactory: async (conn: Connection): Promise<string[]> => {
+                // const coffeeBrands = await conn.query('SELECT...');
+                const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
+                console.log('[!] Async Factory');
+                return coffeeBrands;
+            },
+            inject: [Connection]
         }
     ]
 })
