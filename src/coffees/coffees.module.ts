@@ -10,11 +10,14 @@ import { CoffeesService } from './services/coffees.service';
     imports: [
         TypeOrmModule.forFeature([Coffee, Flavour, Event])
     ],
+    exports: [
+        CoffeesService
+    ],
     controllers: [
         CoffeesController
     ],
     providers: [
         CoffeesService
-    ],
+    ]
 })
 export class CoffeesModule { }
