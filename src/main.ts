@@ -16,11 +16,11 @@ async function bootstrap() {
             enableImplicitConversion: true
         }
     }));
-    app.useGlobalFilters(new HttpExceptionFilter());
-    app.useGlobalInterceptors(
-        new WrapResponseInterceptor(),
-        new TimeoutInterceptor()
-    );
+    // app.useGlobalFilters(new HttpExceptionFilter());
+    // app.useGlobalInterceptors(
+    //     new WrapResponseInterceptor(),
+    //     new TimeoutInterceptor()
+    // );
 
     // http://localhost:3000/api
     // Setting up Swagger Document
