@@ -4,7 +4,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Connection, Repository } from 'typeorm';
 import { CreateCoffeeDto } from '../dto/create-coffee.dto';
 import { UpdateCoffeeDto } from '../dto/update-coffee.dto';
-import { Event } from 'src/events/entities/event.entity';
+import { Event } from '../../events/entities/event.entity';
 import { Coffee } from '../entities/coffee.entity';
 import { Flavour } from '../entities/flavour.entity';
 import { COFFEE_BRANDS } from '../coffees.constants';
@@ -21,22 +21,22 @@ export class CoffeesService {
         @InjectRepository(Flavour)
         private readonly flavourRepository: Repository<Flavour>,
         private readonly conn: Connection,
-        private readonly configService: ConfigService,
-        @Inject(coffeesConfig.KEY)
-        private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
-        @Inject(COFFEE_BRANDS) coffeeBrands: string[]
+        // private readonly configService: ConfigService,
+        // @Inject(coffeesConfig.KEY)
+        // private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
+        // @Inject(COFFEE_BRANDS) coffeeBrands: string[]
     ) {
-        const databaseHost = this.configService.get<string>('DATABASE_HOST', 'localhost');
-        console.log(databaseHost);
+        // const databaseHost = this.configService.get<string>('DATABASE_HOST', 'localhost');
+        // console.log(databaseHost);
 
-        const databaseHostAppConfig = this.configService.get('database.host', 'localhost');
-        console.log(databaseHostAppConfig);
+        // const databaseHostAppConfig = this.configService.get('database.host', 'localhost');
+        // console.log(databaseHostAppConfig);
 
         // const coffeesConfig = this.configService.get('coffees.foo');
         // console.log(coffeesConfig);
-        console.log(coffeesConfiguration.foo);
+        // console.log(coffeesConfiguration.foo);
 
-        console.log(coffeeBrands);
+        // console.log(coffeeBrands);
         console.log('CoffeeService Instantiated');
     }
 
