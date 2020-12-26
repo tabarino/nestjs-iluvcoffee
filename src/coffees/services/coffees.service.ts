@@ -37,7 +37,7 @@ export class CoffeesService {
         // console.log(coffeesConfiguration.foo);
 
         // console.log(coffeeBrands);
-        console.log('CoffeeService Instantiated');
+        // console.log('CoffeeService Instantiated');
     }
 
     findAll(paginationQuery: PaginationQueryDto) {
