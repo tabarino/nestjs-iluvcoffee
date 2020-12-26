@@ -8,6 +8,12 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
     imports: [
+        // ConfigModule.forRoot({
+        //     // You can change the name of your config file
+        //     envFilePath: '.environment',
+        //     // Or disable it if you configure that directly in your server
+        //     ignoreEnvFile: true
+        // }),
         ConfigModule.forRoot(),
         TypeOrmModule.forRoot({
             type: 'postgres',
