@@ -8,10 +8,11 @@ import { Event } from 'src/events/entities/event.entity';
 import { Coffee } from '../entities/coffee.entity';
 import { Flavour } from '../entities/flavour.entity';
 import { COFFEE_BRANDS } from '../coffees.constants';
+import { ConfigService } from '@nestjs/config';
 
 // @Injectable({ scope: Scope.TRANSIENT })
-@Injectable({ scope: Scope.REQUEST })
-// @Injectable()
+// @Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class CoffeesService {
     constructor(
         @InjectRepository(Coffee)
@@ -19,8 +20,11 @@ export class CoffeesService {
         @InjectRepository(Flavour)
         private readonly flavourRepository: Repository<Flavour>,
         private readonly conn: Connection,
+        private readonly configService: ConfigService,
         @Inject(COFFEE_BRANDS) coffeeBrands: string[]
     ) {
+        const databaseHost = this.configService.get<string>('DATABASE_HOST', 'localhost');
+        console.log(databaseHost);
         console.log(coffeeBrands);
         console.log('CoffeeService Instantiated');
     }
