@@ -22,18 +22,20 @@ import appConfig from './config/app.config';
         //         DATABASE_PORT: Joi.number().default(5432),
         //     })
         // }),
+        TypeOrmModule.forRootAsync({
+            useFactory: () => ({
+                type: 'postgres',
+                host: process.env.DATABASE_HOST,
+                port: +process.env.DATABASE_PORT,
+                username: process.env.DATABASE_USER,
+                password: process.env.DATABASE_PASSWORD,
+                database: process.env.DATABASE_NAME,
+                autoLoadEntities: true,
+                synchronize: true // This option must be disabled on Production
+            })
+        }),
         ConfigModule.forRoot({
             load: [appConfig]
-        }),
-        TypeOrmModule.forRoot({
-            type: 'postgres',
-            host: process.env.DATABASE_HOST,
-            port: +process.env.DATABASE_PORT,
-            username: process.env.DATABASE_USER,
-            password: process.env.DATABASE_PASSWORD,
-            database: process.env.DATABASE_NAME,
-            autoLoadEntities: true,
-            synchronize: true // This option must be disabled on Production
         }),
         CoffeesModule,
         CoffeeRatingModule
