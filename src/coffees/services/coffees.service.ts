@@ -8,7 +8,8 @@ import { Event } from 'src/events/entities/event.entity';
 import { Coffee } from '../entities/coffee.entity';
 import { Flavour } from '../entities/flavour.entity';
 import { COFFEE_BRANDS } from '../coffees.constants';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import coffeesConfig from '../config/coffees.config';
 
 // @Injectable({ scope: Scope.TRANSIENT })
 // @Injectable({ scope: Scope.REQUEST })
@@ -21,6 +22,8 @@ export class CoffeesService {
         private readonly flavourRepository: Repository<Flavour>,
         private readonly conn: Connection,
         private readonly configService: ConfigService,
+        @Inject(coffeesConfig.KEY)
+        private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
         @Inject(COFFEE_BRANDS) coffeeBrands: string[]
     ) {
         const databaseHost = this.configService.get<string>('DATABASE_HOST', 'localhost');
@@ -28,6 +31,10 @@ export class CoffeesService {
 
         const databaseHostAppConfig = this.configService.get('database.host', 'localhost');
         console.log(databaseHostAppConfig);
+
+        // const coffeesConfig = this.configService.get('coffees.foo');
+        // console.log(coffeesConfig);
+        console.log(coffeesConfiguration.foo);
 
         console.log(coffeeBrands);
         console.log('CoffeeService Instantiated');
