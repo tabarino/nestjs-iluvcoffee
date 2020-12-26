@@ -3,8 +3,8 @@ import { REQUEST } from '@nestjs/core';
 import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
 import { Public } from 'src/common/decorators/public.decorator';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { ParseIntPipe } from 'src/common/pipes/parse-int.pipe';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto';
+import { ParseIntPipe } from '../../common/pipes/parse-int.pipe';
 import { CreateCoffeeDto } from '../dto/create-coffee.dto';
 import { UpdateCoffeeDto } from '../dto/update-coffee.dto';
 import { CoffeesService } from '../services/coffees.service';
@@ -46,15 +46,21 @@ export class CoffeesController {
     // @UsePipes(ValidationPipe)
     // @SetMetadata('isPublic', true)
     // @ApiResponse({ status: 403, description: 'Forbidden.' })
+    // @Get()
+    // @Public()
+    // @ApiForbiddenResponse({ description: 'Forbidden.' })
+    // async findAll(@Protocol('https') protocol: string, @Query() paginationQuery: PaginationQueryDto) {
+    //     console.log(protocol);
+    //     // await new Promise(resolve => setTimeout(resolve, 5000));
+    //     return this.coffeesService.findAll(paginationQuery);
+    //     // const { limit, offset } = paginationQuery;
+    //     // return `this action returns all coffees. Limit: ${limit}, Offset: ${offset}`;
+    // }
+
     @Get()
-    @Public()
     @ApiForbiddenResponse({ description: 'Forbidden.' })
-    async findAll(@Protocol('https') protocol: string, @Query() paginationQuery: PaginationQueryDto) {
-        console.log(protocol);
-        // await new Promise(resolve => setTimeout(resolve, 5000));
+    findAll(@Query() paginationQuery: PaginationQueryDto) {
         return this.coffeesService.findAll(paginationQuery);
-        // const { limit, offset } = paginationQuery;
-        // return `this action returns all coffees. Limit: ${limit}, Offset: ${offset}`;
     }
 
     // localhost:3000/coffees/123
